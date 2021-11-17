@@ -1,15 +1,16 @@
 # i know its very messy but it was my first try to make something with python ~regards vga
 import random
 
-words = ['tree', 'mango', 'coding', 'human', 'python', 'java',
-         'hangman', 'amazon', 'help', 'football', 'cricket', 'direction', 'dress', 'apology', 'driver', 'ship', 'pilot']
+words = ['árvore', 'manga', 'codificação', 'humano', 'python', 'java',
+         'jogo da forca', 'Amazona', 'ajuda', 'futebol', 'críquete', 'direção', 'vestir', 'apologia', 'motorista',
+         'nave', 'piloto']
 guess = words[random.randint(0, len(words)-1)].upper()
 display = []
 for x in guess:
     display.append("_")
-print("*** GAME STARTED ****")
+print("*** JOGO INICIADO ****")
 print("")
-print("Guess the word ! ", end=" ")
+print("Adivinhe a palavra ! ", end=" ")
 indexes = []
 limbs = 6
 userWon = False
@@ -28,9 +29,9 @@ def start(word, indexes, display, limbs, userWon, userLost, guessedLetters):
                 display[val] = word[val]
         if len(guessedLetters) > 0:
             # display how many limbs left
-            print("You have ", limbs, " chances left")
+            print("Você tem ", limbs, " chances restantes")
             print("")
-            print("Wrong Guesses", guessedLetters)
+            print("Suposições erradas", guessedLetters)
             print("")
         for dash in display:
             # print the display of "_" or the correct letter in the array
@@ -38,33 +39,33 @@ def start(word, indexes, display, limbs, userWon, userLost, guessedLetters):
         print("")
         print("")
         user_guessed = input(
-            "Guess by entering a letter or the complete word to win!: ").upper()
+            "Adivinhe digitando uma letra ou a palavra completa para ganhar!: ").upper()
         if len(user_guessed) == 1:  # if user entered only a letter
             word_found = False
             for i in range(len(word)):  # to get the index of word array
                 if(word[i] == user_guessed):  # match every single letter
                     if i in indexes:  # if user already guessed correct letter
-                        print("You already guessed the letter ", word[i])
+                        print("Você já adivinhou a letra ", word[i])
                         chance = True
                         word_found = True
                         break
                     else:
                         indexes.append(i)
-                        print("Nice guess it was ", word[i])
+                        print("Bom palpite foi ", word[i])
                         word_found = True
         elif len(user_guessed) > 1:  # if used tried to guess by a word
             if(word == user_guessed):
-                print("Woah luck is on your side, You won !")
-                print("The correct word was ", word)
+                print("Uau, a sorte está do seu lado, você venceu !")
+                print("A palavra correta era ", word)
                 userWon = True
             else:
                 wrong_guess = True
         if user_guessed in guessedLetters:  # if user guessed wrong again with the same word/letter
-            print("You already tried ", user_guessed)
+            print("Você já tentou ", user_guessed)
             chance = True
         elif wrong_guess == True or word_found == False:  # when user guessed wrong reduce limbs
             guessedLetters.append(user_guessed)
-            print("Eh, Wrong guess")
+            print("Eh, palpite errado")
             limbs -= 1
             if limbs == 0:
                 userLost = True
@@ -76,15 +77,15 @@ def start(word, indexes, display, limbs, userWon, userLost, guessedLetters):
             chance = False  # to stop recursion :X aryan
         elif len(indexes) > 0 and userWon == False and userLost == False and chance == False:
             if len(indexes) == len(word):  # if user guessed all letters
-                print("Woah, You won ! :)")
-                print("The correct word was ", word)
+                print("Uau, você venceu ! :)")
+                print("A palavra correta era ", word)
             else:
                 start(word, indexes, display, limbs,
                       userWon, userLost, guessedLetters)
         elif userLost == True:  # all limbs are 0 so user lost
-            print("You have ", limbs, " chances left")
-            print("Sorry, You lost :(")
-            print("The correct word was ", word)
+            print("Você tem ", limbs, " chances restantes")
+            print("Desculpe, você perdeu :(")
+            print("A palavra correta era ", word)
 
 
 start(guess, indexes, display, limbs, userWon, userLost, guessedLetters)
